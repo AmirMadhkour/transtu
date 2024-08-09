@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Flex,
@@ -19,33 +19,50 @@ import {
   ModalContent,
   ModalHeader,
   ModalCloseButton,
+  Select,
+  Spacer
 } from "@chakra-ui/react";
 import { useNavigate } from 'react-router-dom';
 import FinalLogo from '../Images/Transtu.webp';
-import {
-  HamburgerIcon,
-  CloseIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
-} from '@chakra-ui/icons';
-import { CiLogout } from 'react-icons/ci'; // Assuming you have this icon installed
+import { HamburgerIcon, CloseIcon, ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
+import { CiLogout } from 'react-icons/ci';
+import { FaBus, FaTrain, FaCog, FaUser, FaGasPump, FaPlane } from 'react-icons/fa';
+import { GrBus } from 'react-icons/gr';
+import { IoExtensionPuzzle } from "react-icons/io5";
+import { LuLayoutDashboard } from "react-icons/lu";
+import { ImStatsDots } from "react-icons/im";
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [username, setUsername] = useState(''); // State for username
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Fetch the username from the login data
+    const fetchUsername = async () => {
+      const user = await getUserData(); 
+      setUsername(user.username);
+    };
+
+    fetchUsername();
+  }, []);
 
   const GoHome = () => {
     navigate('/');
   };
 
- 
-
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const Logout = () => {
+    localStorage.removeItem("username");
     closeModal();
     navigate('/Login');
+  };
+
+  const handleSubmit = () => {
+    // Handle submit logic here
+    console.log('Submitted');
   };
 
   return (
@@ -59,11 +76,14 @@ export default function WithSubnavigation() {
         borderBottom={1}
         borderStyle="solid"
         borderColor={useColorModeValue('gray.200', 'gray.900')}
-        align="center">
+        align="center"
+        justify="space-between"
+      >
         <Flex
           flex={{ base: 1, md: 'auto' }}
           ml={{ base: -2 }}
-          display={{ base: 'flex', md: 'none' }}>
+          display={{ base: 'flex', md: 'none' }}
+        >
           <IconButton
             onClick={onToggle}
             icon={isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />}
@@ -86,27 +106,38 @@ export default function WithSubnavigation() {
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
             <DesktopNav />
           </Flex>
+        </Flex>  
+        <Flex align="center" mr={4}>
+        <Select
+            size="sm" // Make the select box smaller
+            placeholder='Choisir District'
+            bg="#E9D280" // Background color of the options
+            color="black" // Text color of the options
+          >
+            <option  value='option1'>Option 1</option>
+            <option value='option2'>Option 2</option>
+            <option value='option3'>Option 3</option>
+          </Select>
+          <Spacer/>
         </Flex>
-        <Stack
-          flex={{ base: 1, md: 0 }}
-          justify="flex-end"
-          direction="row"
-          spacing={6}>
+        <Spacer/>
+        <Flex align="center" mr={4}>
           <Button
+            ml={4}
+            size="sm"
             leftIcon={<CiLogout color='black' />}
             onClick={openModal}
-            as="a"
-            display={{ base: 'none', md: 'inline-flex' }}
             fontSize="sm"
             fontWeight={600}
             color="white"
             bg="#0B7B16"
             _hover={{
               bg: 'pink.500',
-            }}>
+            }}
+          >
             LogOut
           </Button>
-        </Stack>
+        </Flex>
       </Flex>
       <Collapse in={isOpen} animateOpacity>
         <MobileNav />
@@ -114,22 +145,22 @@ export default function WithSubnavigation() {
       <Modal size="sm" isOpen={isModalOpen} onClose={closeModal} isCentered>
         <ModalOverlay />
         <ModalContent bg="#3440C6" borderRadius="md" p={4}>
-            <ModalHeader>
-              <Flex direction="column" align="center">
-                <Button
-                  leftIcon={<CiLogout color='black' />}
-                  variant='solid'
-                  bg='#0B7B16'
-                  color='#E9D280'
-                  onClick={Logout}
-                  style={{ width: '180px', height: '40px' }}
-                >
-                  Are you sure ?
-                </Button>
-              </Flex>
-            </ModalHeader>
-            <ModalCloseButton color='#E9D280' />
-          </ModalContent>
+          <ModalHeader>
+            <Flex direction="column" align="center">
+              <Button
+                leftIcon={<CiLogout color='black' />}
+                variant='solid'
+                bg='#0B7B16'
+                color='#E9D280'
+                onClick={Logout}
+                style={{ width: '180px', height: '40px' }}
+              >
+                Are you sure?
+              </Button>
+            </Flex>
+          </ModalHeader>
+          <ModalCloseButton color='#E9D280' />
+        </ModalContent>
       </Modal>
     </Box>
   );
@@ -157,8 +188,12 @@ const DesktopNav = () => {
                 _hover={{
                   textDecoration: 'none',
                   color: linkHoverColor,
-                }}>
-                {navItem.label}
+                }}
+              >
+                <Flex align="center">
+                  <Icon as={navItem.icon} mr={2} />
+                  {navItem.label}
+                </Flex>
               </Box>
             </PopoverTrigger>
             {navItem.children && (
@@ -169,7 +204,8 @@ const DesktopNav = () => {
                 bg={popoverContentBgColor}
                 p={4}
                 rounded="xl"
-                minW="sm">
+                minW="sm"
+              >
                 <Stack>
                   {navItem.children.map((child) => (
                     <DesktopSubNav key={child.label} {...child} />
@@ -184,7 +220,7 @@ const DesktopNav = () => {
   );
 }
 
-const DesktopSubNav = ({ label, href, subLabel, children }) => {
+const DesktopSubNav = ({ label, href, subLabel, children, icon }) => {
   const navigate = useNavigate();
   return (
     <Box>
@@ -195,13 +231,16 @@ const DesktopSubNav = ({ label, href, subLabel, children }) => {
         display="block"
         p={2}
         rounded="md"
-        _hover={{ bg: useColorModeValue('#E9D280', 'green') }}>
+        _hover={{ bg: useColorModeValue('#E9D280', 'green') }}
+      >
         <Stack direction="row" align="center">
+          <Icon as={icon} mr={2} />
           <Box>
             <Text
               transition="all .3s ease"
               _groupHover={{ color: 'green' }}
-              fontWeight={500}>
+              fontWeight={500}
+            >
               {label}
             </Text>
             <Text fontSize="sm">{subLabel}</Text>
@@ -213,7 +252,8 @@ const DesktopSubNav = ({ label, href, subLabel, children }) => {
             _groupHover={{ opacity: '100%', transform: 'translateX(0)' }}
             justify="flex-end"
             align="center"
-            flex={1}>
+            flex={1}
+          >
             <Icon color="pink.400" w={5} h={5} as={ChevronRightIcon} />
           </Flex>
         </Stack>
@@ -239,7 +279,7 @@ const MobileNav = () => {
   );
 };
 
-const MobileNavItem = ({ label, children, href }) => {
+const MobileNavItem = ({ label, children, href, icon }) => {
   const { isOpen, onToggle } = useDisclosure();
   const navigate = useNavigate();
 
@@ -253,21 +293,24 @@ const MobileNavItem = ({ label, children, href }) => {
         alignItems="center"
         _hover={{
           textDecoration: 'none',
-        }}>
-        <Text fontWeight={600} color={useColorModeValue('green', 'green')}>
-          {label}
-        </Text>
-        {children && (
-          <Icon
-            as={ChevronDownIcon}
-            transition="all .25s ease-in-out"
-            transform={isOpen ? 'rotate(180deg)' : ''}
-            w={6}
-            h={6}
-          />
-        )}
+        }}
+      >
+        <Flex align="center">
+          <Icon as={icon} mr={2} />
+          <Text fontWeight={600} color={useColorModeValue('green', 'green')}>
+            {label}
+          </Text>
+          {children && (
+            <Icon
+              as={ChevronDownIcon}
+              transition="all .25s ease-in-out"
+              transform={isOpen ? 'rotate(180deg)' : ''}
+              w={6}
+              h={6}
+            />
+          )}
+        </Flex>
       </Box>
-
       <Collapse in={isOpen} animateOpacity style={{ marginTop: '0!important' }}>
         <Stack
           mt={2}
@@ -275,7 +318,8 @@ const MobileNavItem = ({ label, children, href }) => {
           borderLeft={1}
           borderStyle="solid"
           borderColor={useColorModeValue('#4758F2', 'gray.700')}
-          align="start">
+          align="start"
+        >
           {children &&
             children.map((child) => (
               <Box as="a" key={child.label} color="#E9D280" py={2} onClick={() => navigate(child.href ?? '#')}>
@@ -290,46 +334,117 @@ const MobileNavItem = ({ label, children, href }) => {
 
 const NAV_ITEMS = [
   {
-    label: 'Means of Transport',
+    label: 'Menu',
+    icon: FaBus,
     children: [
       {
         label: 'Bus',
         href: '/bus',
+        icon: FaBus,
       },
       {
-        label: 'Mitro',
-        href: '/mitro',
+        label: 'Metro',
+        href: '/metro',
+        icon: FaTrain,
       },
       {
         label: 'Train',
         href: '/train',
+        icon: FaTrain,
       },
     ],
   },
   {
-    label: 'Bon Carburant',
+    label: 'Parametres',
+    icon: FaCog,
     children: [
       {
-        label: 'Type de Bon',
-        href: '/type_de_bon',
+        label: 'Vehicules',
+        href: '/vehicules',
+        icon: GrBus,
       },
       {
-        label: 'Job Board',
-        subLabel: 'Find your dream design job',
+        label: 'Districts ',
+        href: '/districts',
+        icon: IoExtensionPuzzle,
       },
       {
-        label: 'Example 2',
-        subLabel: 'An exclusive list for contract work',
-        href: '/example-2',
+        label: 'Dashboard ',
+        href: '/dashboard',
+        icon: LuLayoutDashboard,
+      },
+      {
+        label: 'Bon Carburant ',
+        href: '/bon_carburant',
+        icon: FaGasPump,
       },
     ],
   },
   {
-    label: 'Example 3',
-    href: '/example-3',
+    label: 'Mouvements',
+    icon: FaPlane,
+    children: [
+      {
+        label: 'Voyage Tombe',
+        href: '/voyage_tombe',
+        icon: FaPlane,
+      },
+      {
+        label: 'Reçus Carburant',
+        href: '/reçu_carburant',
+        icon: FaGasPump,
+      },
+    ],
   },
   {
-    label: 'Example 4',
-    href: '/example-4',
+    label: 'Statestique',
+    icon: ImStatsDots,
+    children: [
+      {
+        label: 'Stat 1',
+        href: '/stat1',
+        icon: FaCog,
+      },
+      {
+        label: 'Stat 2',
+        href: '/stat2',
+        icon: FaCog,
+      },
+    ],
+  },
+  {
+    label: 'Utilisateur',
+    icon: FaUser,
+    children: [
+      {
+        label: 'Log',
+        href: '/logpage',
+        icon: FaCog,
+      },
+      {
+        label: 'Users',
+        href: '/userpage',
+        icon: FaCog,
+      },
+      {
+        label: 'Menue',
+        href: '/menue',
+        icon: FaCog,
+      },
+      {
+        label: 'Compte User',
+        href: '/compte_userpage',
+        icon: FaCog,
+      },
+    ],
   },
 ];
+
+// Placeholder function for fetching user data. 
+const getUserData = async () => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve({ username: 'User' });
+    }, 1000);
+  });
+};

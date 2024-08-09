@@ -1,6 +1,6 @@
 import React from 'react'
-import Footer from  "../context/Footer"
-import NavbartypeBon from '../context/NavbartypeBon';
+import Footer from  "../share/Footer"
+import NavbarHome from '../share/NavbarHome';
 
 function TypedeBon() {
 
@@ -15,7 +15,7 @@ function TypedeBon() {
     
         <>
     <div style={style}>
-    <NavbartypeBon />
+    <NavbarHome />
         <main>
           {/*@Todo-contnue*/}
         </main>

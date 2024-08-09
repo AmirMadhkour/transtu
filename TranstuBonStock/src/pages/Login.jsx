@@ -5,14 +5,21 @@ import { Flex } from '@chakra-ui/react';
 import LeftSection from '../components/LeftSection';
 
 const Login = () => {
+  const style = {
+    backgroundColor: '#E9D280',
+    minHeight: '100vh',
+    padding: '20px',
+  };
   return (
-    <div>
-      <Flex>
+    
+    <div style={style}>
+        <Flex>
         <LeftSection />
         <LoginSection />
-
-      </Flex>
+        </Flex>
+      
     </div>
+    
   );
 };
 

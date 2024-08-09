@@ -1,6 +1,5 @@
 import React from 'react';
-import NavbarHome from '../context/NavbarHome';
-import Footer from  "../context/Footer"
+import NavbarHome from '../share/NavbarHome';
 
 function Home() {
 
@@ -8,7 +7,6 @@ function Home() {
   const style = {
     backgroundColor: '#E9D280',
     minHeight: '100vh', // Ensure the background color covers the full viewport height
-   
   };
 
   return (
@@ -19,8 +17,8 @@ function Home() {
           {/*@Todo-contnue*/}
         </main>
 
-    <Footer/>
-
+   
+    
     </div>
 
     </>

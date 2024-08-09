@@ -1,5 +1,5 @@
 /* App.css */
-body, html, #root, .backgroundcolor {
+body, html, #root, .backgroundcolor{
     height: 100%;
     margin: 0;
     padding: 0;
@@ -13,6 +13,5 @@ body, html, #root, .backgroundcolor {
   }
   
 .backgroundcolor  {
-
     background-color: rgba(233, 210, 128, 1);
 }

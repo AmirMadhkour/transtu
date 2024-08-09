@@ -1,57 +1,26 @@
-import  { useState } from 'react';
 import { Input, InputGroup, InputLeftElement, VStack } from '@chakra-ui/react';
 import { Heading } from '@chakra-ui/react';
+import {useContext} from 'react';
 import { Text, Stack } from '@chakra-ui/react';
 import { FaUser, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Box, FormControl, FormLabel, Button, InputRightElement, IconButton } from '@chakra-ui/react';
-//import { fetchUsers } from '../api/userapi';
-import { useQuery } from '@tanstack/react-query';
-import { useNavigate , Link } from 'react-router-dom';
+import LoginContext from '../context/LoginContext';
+import {  Link } from 'react-router-dom';
+
 const LoginSection = () => {
-//const { data } = useQuery({ queryKey: "user", queryFn: fetchUsers });
-  const [showPassword, setShowPassword] = useState(false);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState({});
-  const [wrongAccount , setWrongAccount] = useState('') ; 
-  const handleTogglePassword = () => setShowPassword(!showPassword);
-  const navigate = useNavigate() ; 
 
-  const validateForm = () => {
-    let errors = {};
-    let isValid = true;
+  const {
 
-    if (!username.trim()) {
-      errors.username = 'Username is required';
-      isValid = false;
-    }
-
-    if (!password.trim()) {
-      errors.password = 'Password is required';
-      isValid = false;
-    }
-
-    setErrors(errors);
-    return isValid;
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-       setErrors({}) ; 
-     const account = data.find((c) => c.username===username && c.password === password) ; 
-     if (account) {
-      setErrors({}) ; 
-      setWrongAccount('') ;
-      console.log("yes you have account") ; 
-       navigate('/') ;
-     } else {
-      console.log("no account")
-       setWrongAccount("wrong account") ; 
-     }
-        
-    }
-  };
+    username,
+    setUsername,
+    password,
+    setPassword,
+    wrongAccount,
+    errors,
+    handleTogglePassword,
+    showPassword,
+    handleSubmit
+  }= useContext(LoginContext)
 
   return (
     <VStack className="right-section" marginY="auto" bgColor="#E9D280">

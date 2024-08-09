@@ -7,14 +7,19 @@ import { Heading, Text, Stack, Box, FormControl,
 import { FaUser, FaLock, FaEye, FaEyeSlash } from "react-icons/fa6";
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import { MdEmail } from 'react-icons/md';
+import { MdEmail , MdPhone } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
+import { addUsers ,  fetchUsers  } from '../api/UserPageAPI';
+
 const SignUpSection = () => {
   const navigate = useNavigate() ; 
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [login , setLogin] = useState('');
+  const [tel , setTel] = useState('');
+  const [userData , setUserData] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
 
@@ -29,27 +34,51 @@ const SignUpSection = () => {
   const { handleSubmit } = useForm();
 
   const submitData = async () => {
-    if (username.length === 0 || email.length === 0 || password.length === 0 || confirmPassword.length === 0) {
+    if (tel.length === 0 || username.length === 0 || email.length === 0 || password.length === 0 || confirmPassword.length === 0) {
       setError('Please fill in all fields.');
     } else if (password !== confirmPassword) {
       setError('Passwords do not match.');
     } else if (!validateEmail(email)) {
       setError('Email is invalid');
-    } else {
+    }  else if (tel.length < 8 ) {
+      setError('Phone number is Uncorrect');
+    }else {
+
+      const updatedData = {  
+        login : username,
+        mail: email,      
+        tel,
+        fullName: username,
+        password
+      };
+
       try {
-        const user = { username, email, password };
+        await addUsers( updatedData);
+        setUserData([...userData, updatedData]);   
         setError('') ; 
-        navigate('/')
+        navigate('/Login')    
       } catch (error) {
-        console.error("Error creating user:", error);
-        setError("Error creating user");
+        console.error("Error adding the user:", error);
       }
+    
     }
   };
 
+  
   useEffect(() => {
-    console.log("User object changed:", { username, email, password });
-  }, [username, email, password]); 
+    fetchUsersData();
+  }, []);
+
+  const fetchUsersData = async () => {
+    try {
+      const data = await fetchUsers();
+      setUserData(data);
+    } catch (error) {
+      console.error("Failed to fetch user data", error);
+    }
+  };
+
+  console.log(userData)
 
   return (
     <VStack className="right-section" marginY="auto" bgColor="#E9D280">
@@ -96,6 +125,24 @@ const SignUpSection = () => {
                   color={'black'}
                   borderWidth={2}
                   onChange={(e) => setEmail(e.target.value)}
+                />
+              </InputGroup>
+            </FormControl>
+
+            <FormControl mt={0}>
+              <FormLabel>Telephone</FormLabel>
+              <InputGroup>
+                <InputLeftElement
+                  pointerEvents="none"
+                  children={<MdPhone  color="gray.300" />}
+                />
+                <Input
+                  
+                  placeholder='Enter your Phone Number'
+                  focusBorderColor='blue.500'
+                  color={'black'}
+                  borderWidth={2}
+                  onChange={(e) => setTel(e.target.value)}
                 />
               </InputGroup>
             </FormControl>

@@ -1,4 +1,5 @@
 import React from 'react';
+import '../App.css';
 import styled from 'styled-components';
 import { FaFacebookF, FaTwitter } from 'react-icons/fa';
 
@@ -6,7 +7,6 @@ const FooterContainer = styled.footer`
   background-color: #0B7B16;
   padding: 20px 10px; /* Reduced padding */
   color: #fff;
-  position: absolute;
   bottom: 0;
   width: 100%;
   display: flex;

@@ -6,8 +6,13 @@ import { Flex } from '@chakra-ui/react';
 
 
 function SignUP() {
+  const style = {
+    backgroundColor: '#E9D280',
+    minHeight: '100vh',
+    padding: '20px',
+  };
   return (
-    <div>
+    <div style={style}>
       <Flex>
         <LeftSection />
         <SignUpSection />
