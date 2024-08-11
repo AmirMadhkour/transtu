@@ -31,6 +31,9 @@ import { GrBus } from 'react-icons/gr';
 import { IoExtensionPuzzle } from "react-icons/io5";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { ImStatsDots } from "react-icons/im";
+import {   useColorMode } from '@chakra-ui/react';
+import { FaUsersLine } from "react-icons/fa6";
+import { FaUserTie } from "react-icons/fa6";
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
@@ -64,7 +67,7 @@ export default function WithSubnavigation() {
     // Handle submit logic here
     console.log('Submitted');
   };
-
+  const { colorMode, toggleColorMode } = useColorMode();
   return (
     <Box>
       <Flex
@@ -79,6 +82,8 @@ export default function WithSubnavigation() {
         align="center"
         justify="space-between"
       >
+
+        
         <Flex
           flex={{ base: 1, md: 'auto' }}
           ml={{ base: -2 }}
@@ -121,6 +126,13 @@ export default function WithSubnavigation() {
           <Spacer/>
         </Flex>
         <Spacer/>
+        {/*color mode toggle*/ }
+
+        <Button onClick={toggleColorMode}>
+                {colorMode === 'light' ? 'Dark Mode' : 'Light Mode'}
+              </Button>
+
+              <Spacer/>
         <Flex align="center" mr={4}>
           <Button
             ml={4}
@@ -137,6 +149,7 @@ export default function WithSubnavigation() {
           >
             LogOut
           </Button>
+          
         </Flex>
       </Flex>
       <Collapse in={isOpen} animateOpacity>
@@ -334,28 +347,13 @@ const MobileNavItem = ({ label, children, href, icon }) => {
 
 const NAV_ITEMS = [
   {
-    label: 'Menu',
+    label: 'Home',
+    href:'/',
     icon: FaBus,
-    children: [
-      {
-        label: 'Bus',
-        href: '/bus',
-        icon: FaBus,
-      },
-      {
-        label: 'Metro',
-        href: '/metro',
-        icon: FaTrain,
-      },
-      {
-        label: 'Train',
-        href: '/train',
-        icon: FaTrain,
-      },
-    ],
+    
   },
   {
-    label: 'Parametres',
+    label: 'Menu',
     icon: FaCog,
     children: [
       {
@@ -405,36 +403,23 @@ const NAV_ITEMS = [
         href: '/stat1',
         icon: FaCog,
       },
-      {
-        label: 'Stat 2',
-        href: '/stat2',
-        icon: FaCog,
-      },
     ],
   },
   {
     label: 'Utilisateur',
     icon: FaUser,
     children: [
-      {
-        label: 'Log',
-        href: '/logpage',
-        icon: FaCog,
-      },
+   
       {
         label: 'Users',
         href: '/userpage',
-        icon: FaCog,
+        icon: FaUsersLine ,
       },
-      {
-        label: 'Menue',
-        href: '/menue',
-        icon: FaCog,
-      },
+   
       {
         label: 'Compte User',
         href: '/compte_userpage',
-        icon: FaCog,
+        icon: FaUserTie ,
       },
     ],
   },

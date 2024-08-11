@@ -8,12 +8,16 @@ import { BiSolidEdit, BiSolidTrash } from "react-icons/bi";
 import UserPageContext from "../context/UserPageContext";
 import { EditUserModal, AddUserModal } from '../share/EditUserModal';
 
+
 function UserPage() {
+  
+  
+  
   const style = {
     backgroundColor: '#E9D280',
     minHeight: '100vh',
     padding: '20px',
-  };
+};
 
   const {
     isOpen,
@@ -37,8 +41,8 @@ function UserPage() {
     setTel,
     role,
     setRole,
-    district,
-    setDistrict,
+    _district,
+    set_District,
     password,
     handlePasswordChange,
     error,
@@ -84,7 +88,7 @@ function UserPage() {
     },
     {
       name: 'District',
-      selector: row => row.district,
+      selector: row => row.district ? row.district.lib : '',
       sortable: true,
     },
     {
@@ -149,8 +153,8 @@ function UserPage() {
             setTel={setTel}
             role={role}
             setRole={setRole}
-            district={district}
-            setDistrict={setDistrict}
+            _district={_district}
+            set_District={set_District}
             password={password}
             handlePasswordChange={handlePasswordChange}
             error={error}
@@ -170,8 +174,8 @@ function UserPage() {
             setTel={setTel}
             role={role}
             setRole={setRole}
-            district={district}
-            setDistrict={setDistrict}
+            _district={_district}
+            set_District={set_District}
             password={password}
             handlePasswordChange={handlePasswordChange}
             error={error}

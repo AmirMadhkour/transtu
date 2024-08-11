@@ -4,7 +4,6 @@ import { ChakraProvider } from '@chakra-ui/react'
 import SignUp from "./pages/SignUP";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-import TypedeBon from "./pages/TypedeBon"
 import VehiculePage from './pages/VehiculePage';
 import Footer from './share/Footer'
 import { VehiculeProvider } from './context/VehiculeContext';
@@ -42,7 +41,7 @@ function App() {
                                 <Route path="/SignUp" element={<SignUp />} />
                                 <Route path="/Login" element={<Login />} />
                                 <Route path="/" element={<Home />} />
-                                <Route path="/type_de_bon" element={<TypedeBon />} />
+                                
                                 <Route path="/vehicules" element={<VehiculePage />} />
                                 <Route path="/districts" element={<DistrictPage />} />
                                 <Route path="/dashboard" element={<Dashboard />} />

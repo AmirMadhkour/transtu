@@ -24,4 +24,13 @@ export const addRecu = async (data) => {
 
 };
 
+export const removeRecu = async (id) => {
+    try {
+        const response = await axios.delete(`/distributions/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error removing the record:', error);
+        throw error;
+    }
+};
 

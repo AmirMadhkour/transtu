@@ -9,6 +9,7 @@ import {
   FormControl,
 } from '@chakra-ui/react';
 import ReçuCarburantContext from '../context/ReçuCarburantContext';
+import { BiSolidTrash } from "react-icons/bi";
 
 function ReçuCarburant() {
     const style = {
@@ -30,12 +31,14 @@ function ReçuCarburant() {
         setDate,
         handleAjout,
         receipts,    
-        setNumBon, // Verify this is correctly included here
+        setNumBon,
         carburant,
         quantity,
+        DownloadPdfButton,
         setQte,
+        handleRemove,
         numBon,
-        setCarburant // Verify this is correctly included here
+        setCarburant
     } = useContext(ReçuCarburantContext);
 
     return (
@@ -51,78 +54,87 @@ function ReçuCarburant() {
                     + Add Reçu Bon Carburant
                 </Button>
                 {receipts.map(receipt => (
-                    
                  <Card key={receipt.id} mt={4}>
-        <CardHeader>
-            <Heading size='md'>Reçu Bon Carburant</Heading>
-        </CardHeader>
-        <CardBody>
-            <Stack divider={<StackDivider />} spacing='4'>
-                <Box>
-                    <Heading size='xs' textTransform='uppercase'>
-                        Date
-                    </Heading>
-                    <FormControl>
-                        <Box as='div' borderRadius='md' bg='#0B7B16' color='white' px={4} h={8} display='flex' alignItems='center'>
-                            {receipt.date}
-                        </Box>
-                    </FormControl>
-                </Box>
-                <Box>
-                    <Heading size='xs' textTransform='uppercase'>
-                        Matricule Vehicule
-                    </Heading>
-                    <FormControl>
-                        <Box as='div' borderRadius='md' bg='#0B7B16' color='white' px={4} h={8} display='flex' alignItems='center'>
-                            {receipt.moyendeTransport ? receipt.moyendeTransport.numeroDeSerie : 'N/A'}
-                        </Box>
-                    </FormControl>
-                </Box>
-                <Box>
-                    <Heading size='xs' textTransform='uppercase'>
-                        Matricule Agent
-                    </Heading>
-                    <FormControl>
-                        <Box as='div' borderRadius='md' bg='#0B7B16' color='white' px={4} h={8} display='flex' alignItems='center'>
-                            {receipt.moyendeTransport && receipt.moyendeTransport.owner ? receipt.moyendeTransport.owner.matricule : 'N/A'}
-                        </Box>
-                    </FormControl>
-                </Box>
-                <Box>
-                    <Heading size='xs' textTransform='uppercase'>
-                        Numero Bon
-                    </Heading>
-                    <FormControl>
-                        <Box as='div' borderRadius='md' bg='#0B7B16' color='white' px={4} h={8} display='flex' alignItems='center'>
-                            {receipt.bonCarburant ? receipt.bonCarburant.numBon : 'N/A'}
-                        </Box>
-                    </FormControl>
-                </Box>
-                <Box>
-                    <Heading size='xs' textTransform='uppercase'>
-                        Quantite
-                    </Heading>
-                    <FormControl>
-                        <Box as='div' borderRadius='md' bg='#0B7B16' color='white' px={4} h={8} display='flex' alignItems='center'>
-                            {receipt.bonCarburant ? receipt.bonCarburant.quantity : 'N/A'}
-                        </Box>
-                    </FormControl>
-                </Box>
-                <Box>
-                    <Heading size='xs' textTransform='uppercase'>
-                        Carburant
-                    </Heading>
-                    <FormControl>
-                        <Box as='div' borderRadius='md' bg='#0B7B16' color='white' px={4} h={8} display='flex' alignItems='center'>
-                            {receipt.moyendeTransport && receipt.moyendeTransport.carburantType ? receipt.moyendeTransport.carburantType.label : 'N/A'}
-                        </Box>
-                    </FormControl>
-                </Box>
-            </Stack>
-        </CardBody>    
-    </Card>
-))}
-
+                    <CardHeader>
+                        <Heading size='md'>Reçu Bon Carburant</Heading>
+                    </CardHeader>
+                    
+                    <CardBody>
+                        
+                        <div id={`form-to-print-${receipt.id}`}>
+                        
+                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <DownloadPdfButton formId={`form-to-print-${receipt.id}`} />
+            <Button colorScheme="red" onClick={() => handleRemove(receipt.id)} >
+                <BiSolidTrash />
+            </Button>
+        </div>
+                            <Stack divider={<StackDivider />} spacing='4'>
+                                <Box>
+                                    <Heading size='xs' textTransform='uppercase'>
+                                        Date
+                                    </Heading>
+                                    <FormControl>
+                                        <Box as='div' borderRadius='md' bg='#0B7B16' color='white' px={4} h={8} display='flex' alignItems='center'>
+                                            {receipt.date}
+                                        </Box>
+                                    </FormControl>
+                                </Box>
+                                <Box>
+                                    <Heading size='xs' textTransform='uppercase'>
+                                        Matricule Vehicule
+                                    </Heading>
+                                    <FormControl>
+                                        <Box as='div' borderRadius='md' bg='#0B7B16' color='white' px={4} h={8} display='flex' alignItems='center'>
+                                            {receipt.moyendeTransport ? receipt.moyendeTransport.numeroDeSerie : 'N/A'}
+                                        </Box>
+                                    </FormControl>
+                                </Box>
+                                <Box>
+                                    <Heading size='xs' textTransform='uppercase'>
+                                        Matricule Agent
+                                    </Heading>
+                                    <FormControl>
+                                        <Box as='div' borderRadius='md' bg='#0B7B16' color='white' px={4} h={8} display='flex' alignItems='center'>
+                                            {receipt.moyendeTransport && receipt.moyendeTransport.owner ? receipt.moyendeTransport.owner.matricule : 'N/A'}
+                                        </Box>
+                                    </FormControl>
+                                </Box>
+                                <Box>
+                                    <Heading size='xs' textTransform='uppercase'>
+                                        Numero Bon
+                                    </Heading>
+                                    <FormControl>
+                                        <Box as='div' borderRadius='md' bg='#0B7B16' color='white' px={4} h={8} display='flex' alignItems='center'>
+                                            {receipt.bonCarburant ? receipt.bonCarburant.numBon : 'N/A'}
+                                        </Box>
+                                    </FormControl>
+                                </Box>
+                                <Box>
+                                    <Heading size='xs' textTransform='uppercase'>
+                                        Quantite
+                                    </Heading>
+                                    <FormControl>
+                                        <Box as='div' borderRadius='md' bg='#0B7B16' color='white' px={4} h={8} display='flex' alignItems='center'>
+                                            {receipt.bonCarburant ? receipt.bonCarburant.quantity : 'N/A'}
+                                        </Box>
+                                    </FormControl>
+                                </Box>
+                                <Box>
+                                    <Heading size='xs' textTransform='uppercase'>
+                                        Carburant
+                                    </Heading>
+                                    <FormControl>
+                                        <Box as='div' borderRadius='md' bg='#0B7B16' color='white' px={4} h={8} display='flex' alignItems='center'>
+                                            {receipt.moyendeTransport && receipt.moyendeTransport.carburantType ? receipt.moyendeTransport.carburantType.label : 'N/A'}
+                                        </Box>
+                                    </FormControl>
+                                </Box>
+                            </Stack>
+                        </div>                 
+                    </CardBody>    
+                </Card>
+            ))}
 
                 <Modal  isOpen={isOpen} onClose={onClose}>
                     <ModalOverlay />
@@ -133,7 +145,6 @@ function ReçuCarburant() {
                             <center><label>Date</label></center>
                             <Spacer />
                             <Input
-                               
                                 onChange={e => setDate(e.target.value)}
                                 value={date}
                                 borderColor="green"

@@ -8,13 +8,16 @@ import {
 import { BiSolidEdit, BiSolidTrash } from "react-icons/bi";
 import VehiculeContext from '../context/VehiculeContext';
 
+
 function VehiclePage() {
 
+ 
+  
   const style = {
     backgroundColor: '#E9D280',
     minHeight: '100vh',
     padding: '20px',
-  };
+};
 
   const {        
     records,
@@ -44,6 +47,8 @@ function VehiclePage() {
     clearForm,
     setCarburant
   } = useContext(VehiculeContext);
+
+
 
   const columns = [
     {

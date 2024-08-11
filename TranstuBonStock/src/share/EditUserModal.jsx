@@ -16,8 +16,8 @@ const EditUserModal = ({
   setTel,
   role,
   setRole,
-  district,
-  setDistrict,
+  _district,
+  set_District,
   password,
   handlePasswordChange,
   error,
@@ -52,7 +52,7 @@ const EditUserModal = ({
         <Spacer />
         <center><label>District</label></center>
         <Spacer />
-        <Input type="text" value={district} onChange={e => setDistrict(e.target.value)} className="form-control" borderColor="green" />
+        <Input type="text" value={_district} onChange={e => set_District(e.target.value)} className="form-control" borderColor="green" />
         <Spacer />
         <center><label>Password</label></center>
         <Spacer />
@@ -81,8 +81,8 @@ const AddUserModal = ({
   setTel,
   role,
   setRole,
-  district,
-  setDistrict,
+  _district,
+  set_District,
   password,
   handlePasswordChange,
   error,
@@ -117,7 +117,7 @@ const AddUserModal = ({
         <Spacer />
         <center><label>District</label></center>
         <Spacer />
-        <Input type="text" value={district} onChange={e => setDistrict(e.target.value)} className="form-control" borderColor="green" />
+        <Input type="text" value={_district} onChange={e => set_District(e.target.value)} className="form-control" borderColor="green" />
         <Spacer />
         <center><label>Create Password</label></center>
         <Spacer />

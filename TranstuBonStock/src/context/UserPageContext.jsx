@@ -1,6 +1,8 @@
 import { createContext, useState, useEffect } from 'react';
 import { useDisclosure } from "@chakra-ui/react";
 import { fetchUsers, updateUsers, addUsers, deleteUsers } from '../api/UserPageAPI';
+import { fetchDistricts} from '../api/DistrictAPI';
+
 
 const UserPageContext = createContext();
 
@@ -14,7 +16,7 @@ export const UserPageProvider = ({ children }) => {
   const [full_name, setFullName] = useState('');
   const [role, setRole] = useState('');
   const [tel, setTel] = useState('');
-  const [district, setDistrict] = useState('');
+  const [_district, set_District] = useState('');
   const [password, setPassword] = useState('');
   const [oldPassword, setOldPassword] = useState('');
   const [error, setError] = useState({});
@@ -66,12 +68,29 @@ export const UserPageProvider = ({ children }) => {
     setFullName(row.fullName);
     setRole(row.role);
     setTel(row.tel);
-    setDistrict(row.district);
+    set_District(row.district ? row.district.lib : '-');
     setOldPassword(row.password);
     onOpen();
   };
 
   const handleSaveChanges = async () => {
+   
+   
+   
+
+    //district detail
+    const allDistrict = await fetchDistricts();
+    let DistrictData = null ;
+
+    allDistrict.forEach(
+      (district)=> {
+        if(district.lib === _district){
+          DistrictData = district
+        }
+      }
+    ) 
+    if (DistrictData == null ) return alert("District Not Found!")
+
     const newError = {};
 
     if (!email || !validateEmail(email)) {
@@ -92,6 +111,7 @@ export const UserPageProvider = ({ children }) => {
         mail: email,
         role,
         tel,
+        district : DistrictData,
         fullName: full_name,
       };
 
@@ -110,6 +130,20 @@ export const UserPageProvider = ({ children }) => {
   };
 
   const handleAddNewRow = async () => {
+
+         //district detail
+    const allDistrict = await fetchDistricts();
+    let DistrictData = null ;
+
+    allDistrict.forEach(
+      (district)=> {
+        if(district.lib === _district){
+          DistrictData = district
+        }
+      }
+    )
+    if (DistrictData == null ) return alert("District Not Found!")
+
     const newError = {};
 
     if (!email || !validateEmail(email)) {
@@ -131,6 +165,7 @@ export const UserPageProvider = ({ children }) => {
         role,
         password,
         tel,
+        district: DistrictData,
         fullName: full_name,
       };
 
@@ -150,7 +185,7 @@ export const UserPageProvider = ({ children }) => {
     setEmail('');
     setFullName('');
     setRole('');
-    setDistrict('');
+    set_District('');
     setPassword('');
     setTel('');
     setError({});
@@ -167,7 +202,7 @@ export const UserPageProvider = ({ children }) => {
       (row.email && row.email.toLowerCase().includes(filterText.toLowerCase())) ||
       (row.full_name && row.full_name.toLowerCase().includes(filterText.toLowerCase())) ||
       (row.role && row.role.toLowerCase().includes(filterText.toLowerCase())) ||
-      (row.district && row.district.toLowerCase().includes(filterText.toLowerCase()))
+      (row.district.lib || '').toLowerCase().includes(filterText.toLowerCase())
     );
   });
 
@@ -194,8 +229,8 @@ export const UserPageProvider = ({ children }) => {
       setFullName,
       role,
       setRole,
-      district,
-      setDistrict,
+      _district,
+      set_District,
       selectedRow,
       setSelectedRow,
       password,

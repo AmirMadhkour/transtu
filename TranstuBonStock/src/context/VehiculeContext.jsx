@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from 'react';
 import { useDisclosure } from "@chakra-ui/react";
 import { fetchVehicule, updateMoyendeTransport  , getAllOwners , getCarburantTypebyID , deleteMoyenDeTransport , addMoyendeTransport} from "../api/VehiculeAPI"; 
 import { fetchDistricts} from '../api/DistrictAPI';
+
 const VehiculeContext = createContext();
 
 export const VehiculeProvider = ({ children }) => {
@@ -133,7 +134,7 @@ export const VehiculeProvider = ({ children }) => {
          }
        }
      )
-
+     if (DistrictData == null ) return alert("District Not Found!")
     const allOwners = await getAllOwners();
     
     let ownerDetails = null;

@@ -74,6 +74,7 @@ export const CompteUserProvider = ({ children }) => {
     setEmail(user.mail);
     setIdUser(user.id);
     setTel(user.tel);
+    setPassword();
     localStorage.removeItem("username");
     onOpen();
   };
@@ -88,6 +89,15 @@ export const CompteUserProvider = ({ children }) => {
 
   const handleSaveChanges = async () => {
    let newUser = null ;
+    if (!password || password.length === 0){
+    alert("Please Write your Password");
+    return;
+   }
+   else if(password != user.password){
+    alert("password incorrect");
+    return;
+   }
+
     if(newPassword.length == 0) {
        newUser = {
         fullName: _username,
@@ -95,7 +105,9 @@ export const CompteUserProvider = ({ children }) => {
         tel
         
       };
-    } else if ( newPassword.length > 8 && !isConfirmPasswordError ) {
+    } 
+
+    else if ( newPassword.length > 8 && !isConfirmPasswordError ) {
        newUser = {
         fullName: _username,
         mail: email,
