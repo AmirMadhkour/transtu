@@ -1,9 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
 import { useDisclosure } from "@chakra-ui/react";
-import { v4 as uuidv4 } from 'uuid';
-import { fetchBonCarburant, updateBonCarburant, getCarburantTypebyID , deleteBonCarburant , addBonCarburant } from '../api/BonCarburantAPI';
-import { fetchDistricts} from '../api/DistrictAPI';
-
+import { fetchBonCarburant, updateBonCarburant, getCarburantTypebyID, deleteBonCarburant, addBonCarburant } from '../api/BonCarburantAPI';
+import { fetchDistricts } from '../api/DistrictAPI';
 
 const BonCarburantContext = createContext();
 
@@ -17,14 +15,20 @@ export const BonCarburantProvider = ({ children }) => {
     const [carburant, setCarburant] = useState('');
     const [quantity, setQte] = useState('');
     const [records, setRecords] = useState([]);
-    const [value, setValue] = useState([]);
+    const [value, setValue] = useState('');
     const [idCarburant, setIdCarburant] = useState('');
     const [idBon, setIdBon] = useState('');
 
-
-     useEffect(() => {
+    useEffect(() => {
         fetchBonCarburantDATA();
-     }, []);
+    }, []);
+
+    useEffect(() => {
+        if (quantity && carburant) {
+            const newValue = calculateValue(quantity, carburant);
+            setValue(newValue);
+        }
+    }, [quantity, carburant , value ]);
 
     const fetchBonCarburantDATA = async () => {
         try {
@@ -35,56 +39,90 @@ export const BonCarburantProvider = ({ children }) => {
         }
     };
 
-    const handleRemove = async (row) => { 
-        if ( confirm("Are you sure") ) {
-            await deleteBonCarburant(row.idBonCarburant)
+    const handleRemove = async (row) => {
+        if (confirm("Are you sure")) {
+            await deleteBonCarburant(row.idBonCarburant);
             const updatedRecords = records.filter(record => record.idBonCarburant !== row.idBonCarburant);
-        setRecords(updatedRecords);
+            setRecords(updatedRecords);
         }
-        
     };
 
+    const calculateValue = (quantity, carburant) => {
+        // Check the type and value of quantity and carburant
+        console.log('calculateValue called with:', { quantity, carburant });
+    
+        // Ensure quantity is a string before using replace
+        const quantityStr = typeof quantity === 'string' ? quantity : quantity.toString();
+        const quantityValue = parseFloat(quantityStr.replace('L', ''));
+    
+        // Check if quantityValue is a number
+        if (isNaN(quantityValue)) {
+            console.error('Invalid quantity value:', quantityStr);
+            return '0DT';
+        }
+    
+        console.log('Parsed quantity value:', quantityValue);
+    
+        switch (carburant) {
+            case '3':
+                return (quantityValue * 1.860).toFixed(3) + 'DT';
+            case '1':
+                return (quantityValue * 2.400).toFixed(3) + 'DT';
+            case '2':
+                return (quantityValue * 1500).toFixed(3) + 'DT';
+            default:
+                console.warn('Unexpected carburant type:', carburant);
+                return '0DT';
+        }
+    };
+    
     const handleEdit = (row) => {
+        console.log('handleEdit called with:', row);
+    
         setSelectedRow(row);
         setNumBon(row.numBon);
         setIdCarburant(row.carburantType ? row.carburantType.idCarburantType : '');
         setIdBon(row.idBonCarburant);
-        setDate(row.dateValable);       
-        setCarburant(row.carburantType ? row.carburantType.label : 'N/A');
+        setDate(row.dateValable);
+        console.log(dateValable)
+        setCarburant(row.carburantType ? row.carburantType.idCarburantType : 'N/A');
         set_District(row.district ? row.district.lib : '-');
-        setQte(row.quantity);
-        setValue(row.value);
+        setQte(row.quantity.toString()); // Ensure quantity is a string
+    
+        // Calculate value and check the result
+        const updatedValue = calculateValue(row.quantity, row.carburantType ? row.carburantType.idCarburantType : 'N/A');
+         console.log('Calculated value:', updatedValue);
+        setValue(updatedValue);
+        console.log(row.value)
         onOpen();
     };
-
+    
     const handleSaveChanges = async () => {
+        const allDistrict = await fetchDistricts();
+        let DistrictData = null;
 
-        //district detail
-    const allDistrict = await fetchDistricts();
-    let DistrictData = null ;
-
-    allDistrict.forEach(
-      (district)=> {
-        if(district.lib === _district){
-          DistrictData = district
-        }
-      }
-    ) 
-    if (DistrictData == null ) return alert("District Not Found!")
+        allDistrict.forEach((district) => {
+            if (district.lib === _district) {
+                DistrictData = district;
+            }
+        });
+        if (DistrictData == null) return alert("District Not Found!");
 
         try {
             const carburantType1 = await getCarburantTypebyID(carburant);
-
+            const updatedValue = calculateValue(quantity, carburant);
+            const cnvrValue = updatedValue.toString(); // Ensure value is a string
+            console.log(carburant , parseFloat(quantity))
             const updatedData = {
                 numBon,
-                district : DistrictData,
+                district: DistrictData,
                 dateValable,
                 carburantType: {
                     idCarburantType: carburantType1.idCarburantType,
                     label: carburantType1.label,
                 },
                 quantity,
-                value,
+                value: cnvrValue,
             };
 
             await updateBonCarburant(idBon, updatedData);
@@ -101,45 +139,41 @@ export const BonCarburantProvider = ({ children }) => {
     };
 
     const handleAddNewRow = async () => {
+        const allDistrict = await fetchDistricts();
+        let DistrictData = null;
 
-        //district detail
-    const allDistrict = await fetchDistricts();
-    let DistrictData = null ;
+        allDistrict.forEach((district) => {
+            if (district.lib === _district) {
+                DistrictData = district;
+            }
+        });
+        if (DistrictData == null) return alert("District Not Found!");
 
-    allDistrict.forEach(
-      (district)=> {
-        if(district.lib === _district){
-          DistrictData = district
-        }
-      }
-    ) 
-    if (DistrictData == null ) return alert("District Not Found!")
-
-
-        const carburantType1 = await getCarburantTypebyID(carburant);
-        const newRow = {
-            
-            numBon,
-            district: DistrictData,
-            dateValable,
-            carburantType:
-            {
-                idCarburantType : carburantType1.idCarburantType,
-                label: carburantType1.label
-            } ,
-            quantity,
-            value,
-        };
         try {
-            await addBonCarburant(newRow);
+            const carburantType1 = await getCarburantTypebyID(carburant);
+            const newValue = calculateValue(quantity, carburant);
 
+            const newRow = {
+                numBon,
+                district: DistrictData,
+                dateValable,
+                carburantType: {
+                    idCarburantType: carburantType1.idCarburantType,
+                    label: carburantType1.label
+                },
+                quantity,
+                value: newValue,
+            };
+
+            await addBonCarburant(newRow);
             setRecords([...records, newRow]);
             onClose();
             clearForm();
         } catch (error) {
-            console.error("Error updating the record:", error);
+            console.error("Error adding the record:", error);
         }
-        
+
+        window.location.reload();
     };
 
     const clearForm = () => {

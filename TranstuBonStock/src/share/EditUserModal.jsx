@@ -1,6 +1,6 @@
 import {
   Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody,
-  ModalCloseButton, Input, Spacer, Button, Text
+  ModalCloseButton, Input, Spacer, Button, Text , Select
 } from '@chakra-ui/react';
 
 const EditUserModal = ({
@@ -48,7 +48,20 @@ const EditUserModal = ({
         {error.tel && <Text color="red.500" mt={2}>{error.tel}</Text>}
         <Spacer />
         <center><label>Role</label></center>
-        <Input type="text" value={role} onChange={e => setRole(e.target.value)} className="form-control" borderColor="green" />
+
+        <Select
+                value={role}
+                borderColor="green"
+                onChange={e => setRole(e.target.value)}
+                size="sm"
+                placeholder='Choose Role'
+                bg="White"
+                color="black"
+              >
+                <option >chef Service</option>
+                <option >Administrateur</option>
+                <option >Agent de Saisie</option>
+              </Select>
         <Spacer />
         <center><label>District</label></center>
         <Spacer />
@@ -113,7 +126,19 @@ const AddUserModal = ({
         {error.tel && <Text color="red.500" mt={2}>{error.tel}</Text>}
         <Spacer />
         <center><label>Role</label></center>
-        <Input type="text" value={role} onChange={e => setRole(e.target.value)} className="form-control" borderColor="green" />
+        <Select
+                value={role}
+                borderColor="green"
+                onChange={e => setRole(e.target.value)}
+                size="sm"
+                placeholder='Choose Role'
+                bg="White"
+                color="black"
+              >
+                <option value='1'>chef Service</option>
+                <option value='2'>Administrateur</option>
+                <option value='3'>Agent de Saisie</option>
+              </Select>
         <Spacer />
         <center><label>District</label></center>
         <Spacer />

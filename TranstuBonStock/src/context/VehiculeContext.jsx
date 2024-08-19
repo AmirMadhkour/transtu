@@ -18,6 +18,7 @@ export const VehiculeProvider = ({ children }) => {
   const [idDistrict , setIdDistrict] = useState('');
   const [idOwner , setIDowner] = useState ('');
 
+  
   console.log(records)
   
   useEffect(() => {
@@ -51,7 +52,7 @@ export const VehiculeProvider = ({ children }) => {
     setIDowner(row.owner ? row.owner.id : '')
     setMarque(row.marque);
     set_District(row.district ? row.district.lib : '-');
-    setCarburant(row.carburantType ? row.carburantType.label : 'N/A');
+    setCarburant(row.carburantType ? row.carburantType.idCarburantType : 'N/A');
     onOpen();
     
     //console.log(row.carburant)

@@ -43,6 +43,7 @@ function BonCarburant() {
         filteredRecords
     } = useContext(BonCarburantContext);
 
+    console.log(value)
     const columns = [
         { name: 'Num Bon',
           selector: row => row.numBon,
@@ -175,19 +176,23 @@ function BonCarburant() {
                             <center>
                                 <label>Date</label>
                             </center>
-                            <Input
-                                
-                                value={dateValable}
-                                onChange={e => setDate(e.target.value)}
-                                className="form-control"
-                                borderColor="green"
-                            />
+                          <Input
+    value={dateValable}
+    type="date"
+    onChange={e => {
+        const formattedDate = e.target.value;
+        setDate(formattedDate);
+    }}
+    className="form-control"
+    borderColor="green"
+/>
+
+          
                             <Spacer />
                             <center>
                                 <label>Value</label>
                             </center>
-                            <Input
-                                
+                            <Input 
                                 value={value}
                                 onChange={e => setValue(e.target.value)}
                                 className="form-control"

@@ -15,7 +15,7 @@ function VehiclePage() {
   
   const style = {
     backgroundColor: '#E9D280',
-    minHeight: '100vh',
+    minHeight: '90vh',
     padding: '20px',
 };
 

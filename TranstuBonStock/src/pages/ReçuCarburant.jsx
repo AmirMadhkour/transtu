@@ -145,6 +145,7 @@ function ReçuCarburant() {
                             <center><label>Date</label></center>
                             <Spacer />
                             <Input
+                                type="date"
                                 onChange={e => setDate(e.target.value)}
                                 value={date}
                                 borderColor="green"

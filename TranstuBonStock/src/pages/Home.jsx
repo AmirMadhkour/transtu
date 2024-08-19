@@ -10,7 +10,6 @@ function Home() {
     backgroundColor: '#E9D280',
     minHeight: '100vh',
     padding: '20px',
-    
   };
 
   return (
@@ -24,7 +23,7 @@ function Home() {
         </HStack>
         <VStack spacing={8}>
           <Box w="100%" textAlign="left">
-            <Text fontSize="md">
+            <Text fontSize="lg" fontFamily="'Arial', sans-serif">
               Transtu (Société des Transports de Tunis) is a public transportation company that serves the Tunisian capital, Tunis. Established to facilitate the movement of people within the city and its suburbs, Transtu operates a variety of transportation services including buses, trams, and suburban trains. The company plays a crucial role in the daily commute of thousands of residents, contributing significantly to the urban mobility of the region.
             </Text>
           </Box>
@@ -38,14 +37,14 @@ function Home() {
               />
             </Box>
             <Box w="100%" textAlign="left">
-              <Text fontSize="md">
+              <Text fontSize="lg" fontFamily="'Arial', sans-serif">
                 The tram network, which is one of the most significant aspects of Transtu's services, connects the central parts of Tunis with its outer districts. The buses operate on numerous routes, providing extensive coverage across the city. Transtu’s commitment to maintaining and improving its services has made it a reliable option for public transportation in Tunis.
               </Text>
             </Box>
           </Stack>
           <Stack direction={{ base: 'column', md: 'row' }} spacing={8}>
             <Box w="100%" textAlign="left">
-              <Text fontSize="md">
+              <Text fontSize="lg" fontFamily="'Arial', sans-serif">
                 Transtu continues to modernize its fleet and infrastructure, ensuring that the transportation services remain efficient and accessible to all residents. The company also emphasizes sustainability by integrating environmentally friendly practices into its operations.
               </Text>
             </Box>

@@ -31,9 +31,8 @@ import { GrBus } from 'react-icons/gr';
 import { IoExtensionPuzzle } from "react-icons/io5";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { ImStatsDots } from "react-icons/im";
-import {   useColorMode } from '@chakra-ui/react';
-import { FaUsersLine } from "react-icons/fa6";
-import { FaUserTie } from "react-icons/fa6";
+import { RiAccountCircleFill } from "react-icons/ri";
+import { FaUsersCog } from "react-icons/fa";
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
@@ -67,7 +66,7 @@ export default function WithSubnavigation() {
     // Handle submit logic here
     console.log('Submitted');
   };
-  const { colorMode, toggleColorMode } = useColorMode();
+  
   return (
     <Box>
       <Flex
@@ -112,7 +111,8 @@ export default function WithSubnavigation() {
             <DesktopNav />
           </Flex>
         </Flex>  
-        <Flex align="center" mr={4}>
+      {/* 
+      <Flex align="center" mr={4}>
         <Select
             size="sm" // Make the select box smaller
             placeholder='Choisir District'
@@ -125,14 +125,10 @@ export default function WithSubnavigation() {
           </Select>
           <Spacer/>
         </Flex>
+      */}
+        
         <Spacer/>
-        {/*color mode toggle*/ }
-
-        <Button onClick={toggleColorMode}>
-                {colorMode === 'light' ? 'Dark Mode' : 'Light Mode'}
-              </Button>
-
-              <Spacer/>
+       
         <Flex align="center" mr={4}>
           <Button
             ml={4}
@@ -350,7 +346,6 @@ const NAV_ITEMS = [
     label: 'Home',
     href:'/',
     icon: FaBus,
-    
   },
   {
     label: 'Menu',
@@ -395,7 +390,7 @@ const NAV_ITEMS = [
     ],
   },
   {
-    label: 'Statestique',
+    label: 'Statistique',
     icon: ImStatsDots,
     children: [
       {
@@ -406,24 +401,18 @@ const NAV_ITEMS = [
     ],
   },
   {
-    label: 'Utilisateur',
-    icon: FaUser,
-    children: [
-   
-      {
-        label: 'Users',
-        href: '/userpage',
-        icon: FaUsersLine ,
-      },
-   
-      {
-        label: 'Compte User',
-        href: '/compte_userpage',
-        icon: FaUserTie ,
-      },
-    ],
+    label: 'Users',
+    href: '/userpage',
+    icon: FaUsersCog,
   },
+  {
+    label: 'Compte User',
+    href: '/compte_userpage',
+    icon: RiAccountCircleFill,
+  },
+
 ];
+
 
 // Placeholder function for fetching user data. 
 const getUserData = async () => {
