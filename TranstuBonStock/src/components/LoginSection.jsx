@@ -47,7 +47,7 @@ const LoginSection = () => {
                   focusBorderColor="blue.500"
                   color="black"
                   borderWidth={2}
-                  value={username}
+                  
                   onChange={(e) => setUsername(e.target.value)}
                 />
               </InputGroup>
@@ -66,7 +66,7 @@ const LoginSection = () => {
                   focusBorderColor="blue.500"
                   color="black"
                   borderWidth={2}
-                  value={password}
+                  
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 <InputRightElement position="absolute" right="0" top="50%" transform="translateY(-50%)">

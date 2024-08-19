@@ -40,6 +40,7 @@ export const BonCarburantProvider = ({ children }) => {
     };
 
     const handleRemove = async (row) => {
+
         if (confirm("Are you sure")) {
             await deleteBonCarburant(row.idBonCarburant);
             const updatedRecords = records.filter(record => record.idBonCarburant !== row.idBonCarburant);
@@ -50,11 +51,12 @@ export const BonCarburantProvider = ({ children }) => {
     const calculateValue = (quantity, carburant) => {
         // Check the type and value of quantity and carburant
         console.log('calculateValue called with:', { quantity, carburant });
-    
+        const _idCa = parseInt(carburant);
+
         // Ensure quantity is a string before using replace
         const quantityStr = typeof quantity === 'string' ? quantity : quantity.toString();
         const quantityValue = parseFloat(quantityStr.replace('L', ''));
-    
+    console.log(quantityStr , quantityValue  )
         // Check if quantityValue is a number
         if (isNaN(quantityValue)) {
             console.error('Invalid quantity value:', quantityStr);
@@ -63,13 +65,13 @@ export const BonCarburantProvider = ({ children }) => {
     
         console.log('Parsed quantity value:', quantityValue);
     
-        switch (carburant) {
-            case '3':
+        switch (_idCa) {
+            case 3 :
                 return (quantityValue * 1.860).toFixed(3) + 'DT';
-            case '1':
+            case 1 :
                 return (quantityValue * 2.400).toFixed(3) + 'DT';
-            case '2':
-                return (quantityValue * 1500).toFixed(3) + 'DT';
+            case 2 :
+                return (quantityValue * 1.500).toFixed(3) + 'DT';
             default:
                 console.warn('Unexpected carburant type:', carburant);
                 return '0DT';
@@ -78,7 +80,7 @@ export const BonCarburantProvider = ({ children }) => {
     
     const handleEdit = (row) => {
         console.log('handleEdit called with:', row);
-    
+  
         setSelectedRow(row);
         setNumBon(row.numBon);
         setIdCarburant(row.carburantType ? row.carburantType.idCarburantType : '');

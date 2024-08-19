@@ -5,7 +5,7 @@ import NavbarHome from '../share/NavbarHome';
 import DataTable from 'react-data-table-component';
 import {
     Button, Modal, Select, ModalOverlay, ModalContent, ModalHeader,
-    ModalFooter, ModalBody, ModalCloseButton, Spacer, Input
+    ModalFooter, ModalBody, ModalCloseButton, Spacer, Input , Box
 } from '@chakra-ui/react';
 import { BiSolidEdit, BiSolidTrash } from "react-icons/bi";
 
@@ -167,9 +167,9 @@ function BonCarburant() {
                 bg="White"
                 color="black"
               >
-                <option value='1'>Essance</option>
+                <option value= '1'>Essance</option>
                 <option value='2'>gaz</option>
-                <option value='3'>Mazout</option>
+                <option value='3'>Gassoil</option>
               </Select>
               <Spacer />
               <Spacer />
@@ -192,12 +192,10 @@ function BonCarburant() {
                             <center>
                                 <label>Value</label>
                             </center>
-                            <Input 
-                                value={value}
-                                onChange={e => setValue(e.target.value)}
-                                className="form-control"
-                                borderColor="green"
-                            />
+                            <Box as='div' borderRadius='md' bg='#0B7B16' color='white' px={4} h={8} display='flex' alignItems='center'>
+                              {value}
+                             </Box>
+                        
                             <Spacer />
                         </ModalBody>
                         <ModalFooter>

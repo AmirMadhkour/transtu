@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect , useContext  } from 'react';
 import {
   Box,
   Flex,
@@ -33,23 +33,315 @@ import { LuLayoutDashboard } from "react-icons/lu";
 import { ImStatsDots } from "react-icons/im";
 import { RiAccountCircleFill } from "react-icons/ri";
 import { FaUsersCog } from "react-icons/fa";
+import LoginContext from '../context/LoginContext';
+
+let NAV_ITEMS = [
+  {
+    label: 'Home',
+    href:'/',
+    icon: FaBus,
+  },
+  {
+    label: 'Menu',
+    icon: FaCog,
+    children: [
+      {
+        label: 'Vehicules',
+        href: '/vehicules',
+        icon: GrBus,
+      },
+      {
+        label: 'Districts ',
+        href: '/districts',
+        icon: IoExtensionPuzzle,
+      },
+      {
+        label: 'Dashboard ',
+        href: '/dashboard',
+        icon: LuLayoutDashboard,
+      },
+      {
+        label: 'Bon Carburant ',
+        href: '/bon_carburant',
+        icon: FaGasPump,
+      },
+    ],
+  },
+  {
+    label: 'Mouvements',
+    icon: FaPlane,
+    children: [
+      {
+        label: 'Voyage Tombe',
+        href: '/voyage_tombe',
+        icon: FaPlane,
+      },
+      {
+        label: 'Reçus Carburant',
+        href: '/reçu_carburant',
+        icon: FaGasPump,
+      },
+    ],
+  },
+  {
+    label: 'Statistique',
+    icon: ImStatsDots,
+    children: [
+      {
+        label: 'Stat 1',
+        href: '/stat1',
+        icon: FaCog,
+      },
+    ],
+  },
+  {
+    label: 'Users',
+    href: '/userpage',
+    icon: FaUsersCog,
+  },
+  {
+    label: 'Compte User',
+    href: '/compte_userpage',
+    icon: RiAccountCircleFill,
+  },
+
+];
 
 export default function WithSubnavigation() {
+  const {username , setUsername , userData }=useContext(LoginContext)
   const { isOpen, onToggle } = useDisclosure();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [username, setUsername] = useState(''); // State for username
+  
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Fetch the username from the login data
-    const fetchUsername = async () => {
-      const user = await getUserData(); 
-      setUsername(user.username);
-    };
+  console.log(userData)
+  console.log(username)
 
-    fetchUsername();
-  }, []);
+  let userRole = null ;
 
+  userData.forEach( (c) => {
+       if (c.fullName === username) {
+        userRole = c.role ; 
+       } 
+  });
+
+  switch (userRole) {
+    case 'chef Service': 
+      NAV_ITEMS = [
+        {
+          label: 'Home',
+          href: '/',
+          icon: FaBus,
+        },
+        {
+          label: 'Menu',
+          icon: FaCog,
+          children: [
+            {
+              label: 'Vehicules',
+              href: '/vehicules',
+              icon: GrBus,
+            },
+            {
+              label: 'Districts',
+              href: '/districts',
+              icon: IoExtensionPuzzle,
+            },
+            {
+              label: 'Dashboard',
+              href: '/dashboard',
+              icon: LuLayoutDashboard,
+            },
+            {
+              label: 'Bon Carburant',
+              href: '/bon_carburant',
+              icon: FaGasPump,
+            },
+          ],
+        },
+        {
+          label: 'Mouvements',
+          icon: FaPlane,
+          children: [
+            {
+              label: 'Voyage Tombe',
+              href: '/voyage_tombe',
+              icon: FaPlane,
+            },
+            {
+              label: 'Reçus Carburant',
+              href: '/reçu_carburant',
+              icon: FaGasPump,
+            },
+          ],
+        },
+        {
+          label: 'Statistique',
+          icon: ImStatsDots,
+          children: [
+            {
+              label: 'Stat 1',
+              href: '/stat1',
+              icon: FaCog,
+            },
+          ],
+        },
+        {
+          label: 'Compte User',
+          href: '/compte_userpage',
+          icon: RiAccountCircleFill,
+        },
+      ];
+      break;
+  
+    case 'Administrateur': 
+      NAV_ITEMS = [
+        {
+          label: 'Home',
+          href: '/',
+          icon: FaBus,
+        },
+        {
+          label: 'Users',
+          href: '/userpage',
+          icon: FaUsersCog,
+        },
+        {
+          label: 'Compte User',
+          href: '/compte_userpage',
+          icon: RiAccountCircleFill,
+        },
+      ];
+      break;
+  
+    case 'Agent de Saisie': 
+      NAV_ITEMS = [
+        {
+          label: 'Home',
+          href: '/',
+          icon: FaBus,
+        },
+        {
+          label: 'Menu',
+          icon: FaCog,
+          children: [
+            {
+              label: 'Vehicules',
+              href: '/vehicules',
+              icon: GrBus,
+            },
+            {
+              label: 'Districts',
+              href: '/districts',
+              icon: IoExtensionPuzzle,
+            },
+            {
+              label: 'Dashboard',
+              href: '/dashboard',
+              icon: LuLayoutDashboard,
+            },
+            {
+              label: 'Bon Carburant',
+              href: '/bon_carburant',
+              icon: FaGasPump,
+            },
+          ],
+        },
+        {
+          label: 'Mouvements',
+          icon: FaPlane,
+          children: [
+            {
+              label: 'Reçus Carburant',
+              href: '/reçu_carburant',
+              icon: FaGasPump,
+            },
+          ],
+        },
+        {
+          label: 'Compte User',
+          href: '/compte_userpage',
+          icon: RiAccountCircleFill,
+        },
+      ];
+      break;
+  
+    default:
+      NAV_ITEMS = [ {
+        label: 'Home',
+        href:'/',
+        icon: FaBus,
+      },
+      {
+        label: 'Menu',
+        icon: FaCog,
+        children: [
+          {
+            label: 'Vehicules',
+            href: '/vehicules',
+            icon: GrBus,
+          },
+          {
+            label: 'Districts ',
+            href: '/districts',
+            icon: IoExtensionPuzzle,
+          },
+          {
+            label: 'Dashboard ',
+            href: '/dashboard',
+            icon: LuLayoutDashboard,
+          },
+          {
+            label: 'Bon Carburant ',
+            href: '/bon_carburant',
+            icon: FaGasPump,
+          },
+        ],
+      },
+      {
+        label: 'Mouvements',
+        icon: FaPlane,
+        children: [
+          {
+            label: 'Voyage Tombe',
+            href: '/voyage_tombe',
+            icon: FaPlane,
+          },
+          {
+            label: 'Reçus Carburant',
+            href: '/reçu_carburant',
+            icon: FaGasPump,
+          },
+        ],
+      },
+      {
+        label: 'Statistique',
+        icon: ImStatsDots,
+        children: [
+          {
+            label: 'Stat 1',
+            href: '/stat1',
+            icon: FaCog,
+          },
+        ],
+      },
+      {
+        label: 'Users',
+        href: '/userpage',
+        icon: FaUsersCog,
+      },
+      {
+        label: 'Compte User',
+        href: '/compte_userpage',
+        icon: RiAccountCircleFill,
+      },];
+      break;
+  }
+  
+  
+
+
+console.log(userRole)
   const GoHome = () => {
     navigate('/');
   };
@@ -341,84 +633,7 @@ const MobileNavItem = ({ label, children, href, icon }) => {
   );
 };
 
-const NAV_ITEMS = [
-  {
-    label: 'Home',
-    href:'/',
-    icon: FaBus,
-  },
-  {
-    label: 'Menu',
-    icon: FaCog,
-    children: [
-      {
-        label: 'Vehicules',
-        href: '/vehicules',
-        icon: GrBus,
-      },
-      {
-        label: 'Districts ',
-        href: '/districts',
-        icon: IoExtensionPuzzle,
-      },
-      {
-        label: 'Dashboard ',
-        href: '/dashboard',
-        icon: LuLayoutDashboard,
-      },
-      {
-        label: 'Bon Carburant ',
-        href: '/bon_carburant',
-        icon: FaGasPump,
-      },
-    ],
-  },
-  {
-    label: 'Mouvements',
-    icon: FaPlane,
-    children: [
-      {
-        label: 'Voyage Tombe',
-        href: '/voyage_tombe',
-        icon: FaPlane,
-      },
-      {
-        label: 'Reçus Carburant',
-        href: '/reçu_carburant',
-        icon: FaGasPump,
-      },
-    ],
-  },
-  {
-    label: 'Statistique',
-    icon: ImStatsDots,
-    children: [
-      {
-        label: 'Stat 1',
-        href: '/stat1',
-        icon: FaCog,
-      },
-    ],
-  },
-  {
-    label: 'Users',
-    href: '/userpage',
-    icon: FaUsersCog,
-  },
-  {
-    label: 'Compte User',
-    href: '/compte_userpage',
-    icon: RiAccountCircleFill,
-  },
 
-];
+ 
 
 
-// Placeholder function for fetching user data. 
-const getUserData = async () => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve({ username: 'User' });
-    }, 1000);
-  });
-};

@@ -20,9 +20,10 @@ import CompteUser from './pages/CompteUser'
 import UserPage from './pages/UserPage'
 import ReçuCarburant from './pages/ReçuCarburant'
 import Stat1 from './pages/Stat1';
-import { LoginProvider } from './context/LoginContext';
+import  { LoginProvider } from './context/LoginContext';
 
 function App() {
+  
   return (
     <ChakraProvider>
       <Router>
