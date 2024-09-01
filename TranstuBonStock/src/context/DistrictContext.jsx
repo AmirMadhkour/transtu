@@ -28,6 +28,8 @@ export const DistrictProvider = ({ children }) => {
             await deleteDistricts(row.id);
             const updatedRecords = records.filter(record => record.id !== row.id);
             setRecords(updatedRecords);
+            window.location.reload();
+
         }
         
     }
@@ -55,6 +57,7 @@ export const DistrictProvider = ({ children }) => {
         );
         setRecords(updatedRecords);
         onClose();
+        window.location.reload();
         setSelectedRow(null);
       } catch (error) {
         console.error("Error updating the record:", error);
@@ -73,6 +76,7 @@ export const DistrictProvider = ({ children }) => {
             await addDistricts(newRow);
             setRecords([...records , newRow]);
             onClose();
+            window.location.reload();
             clearForm();
           } catch (error) {
             console.error("Error adding the district:", error);

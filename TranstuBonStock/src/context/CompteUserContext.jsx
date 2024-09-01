@@ -121,7 +121,6 @@ export const CompteUserProvider = ({ children }) => {
       await updateUsers(user.id , newUser);
       setUser( newUser );
       localStorage.setItem("username", _username);
-
       clearForm();
       onClose();
       window.location.reload();

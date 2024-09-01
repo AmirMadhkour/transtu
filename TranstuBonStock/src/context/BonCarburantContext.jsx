@@ -45,6 +45,7 @@ export const BonCarburantProvider = ({ children }) => {
             await deleteBonCarburant(row.idBonCarburant);
             const updatedRecords = records.filter(record => record.idBonCarburant !== row.idBonCarburant);
             setRecords(updatedRecords);
+            window.location.reload();
         }
     };
 
@@ -133,6 +134,7 @@ export const BonCarburantProvider = ({ children }) => {
                 row.idBonCarburant === selectedRow.idBonCarburant ? { ...row, ...updatedData } : row
             );
             setRecords(updatedRecords);
+            window.location.reload();
             onClose();
             setSelectedRow(null);
         } catch (error) {
@@ -171,6 +173,7 @@ export const BonCarburantProvider = ({ children }) => {
             setRecords([...records, newRow]);
             onClose();
             clearForm();
+            window.location.reload();
         } catch (error) {
             console.error("Error adding the record:", error);
         }

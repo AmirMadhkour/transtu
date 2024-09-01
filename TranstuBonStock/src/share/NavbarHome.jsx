@@ -38,7 +38,7 @@ import LoginContext from '../context/LoginContext';
 let NAV_ITEMS = [
   {
     label: 'Home',
-    href:'/',
+    href:'/Home',
     icon: FaBus,
   },
   {
@@ -130,7 +130,7 @@ export default function WithSubnavigation() {
       NAV_ITEMS = [
         {
           label: 'Home',
-          href: '/',
+          href: '/Home',
           icon: FaBus,
         },
         {
@@ -198,7 +198,7 @@ export default function WithSubnavigation() {
       NAV_ITEMS = [
         {
           label: 'Home',
-          href: '/',
+          href: '/Home',
           icon: FaBus,
         },
         {
@@ -218,7 +218,7 @@ export default function WithSubnavigation() {
       NAV_ITEMS = [
         {
           label: 'Home',
-          href: '/',
+          href: '/Home',
           icon: FaBus,
         },
         {
@@ -269,67 +269,10 @@ export default function WithSubnavigation() {
     default:
       NAV_ITEMS = [ {
         label: 'Home',
-        href:'/',
+        href:'/Home',
         icon: FaBus,
       },
-      {
-        label: 'Menu',
-        icon: FaCog,
-        children: [
-          {
-            label: 'Vehicules',
-            href: '/vehicules',
-            icon: GrBus,
-          },
-          {
-            label: 'Districts ',
-            href: '/districts',
-            icon: IoExtensionPuzzle,
-          },
-          {
-            label: 'Dashboard ',
-            href: '/dashboard',
-            icon: LuLayoutDashboard,
-          },
-          {
-            label: 'Bon Carburant ',
-            href: '/bon_carburant',
-            icon: FaGasPump,
-          },
-        ],
-      },
-      {
-        label: 'Mouvements',
-        icon: FaPlane,
-        children: [
-          {
-            label: 'Voyage Tombe',
-            href: '/voyage_tombe',
-            icon: FaPlane,
-          },
-          {
-            label: 'Reçus Carburant',
-            href: '/reçu_carburant',
-            icon: FaGasPump,
-          },
-        ],
-      },
-      {
-        label: 'Statistique',
-        icon: ImStatsDots,
-        children: [
-          {
-            label: 'Stat 1',
-            href: '/stat1',
-            icon: FaCog,
-          },
-        ],
-      },
-      {
-        label: 'Users',
-        href: '/userpage',
-        icon: FaUsersCog,
-      },
+      
       {
         label: 'Compte User',
         href: '/compte_userpage',

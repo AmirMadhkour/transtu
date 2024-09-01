@@ -1,30 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import '../index.css';
-import { Heading, Text, Stack, Box, FormControl,
-   FormLabel, Button, Input, InputRightElement, 
-   InputLeftElement, IconButton, VStack,
-    InputGroup } from '@chakra-ui/react';
+import {
+  Heading,
+  Text,
+  Stack,
+  Box,
+  FormControl,
+  FormLabel,
+  Button,
+  Input,
+  InputRightElement,
+  InputLeftElement,
+  IconButton,
+  VStack,
+  InputGroup
+} from '@chakra-ui/react';
 import { FaUser, FaLock, FaEye, FaEyeSlash } from "react-icons/fa6";
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import { MdEmail , MdPhone } from 'react-icons/md';
+import { MdEmail, MdPhone } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
-import { addUsers ,  fetchUsers  } from '../api/UserPageAPI';
+import { addUsers, fetchUsers } from '../api/UserPageAPI';
 
 const SignUpSection = () => {
-  const navigate = useNavigate() ; 
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [login , setLogin] = useState('');
-  const [tel , setTel] = useState('');
-  const [userData , setUserData] = useState('');
+  const [tel, setTel] = useState('');
+  const [userData, setUserData] = useState([]);
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
 
   const validateEmail = (email) => {
-    // Regex for basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
@@ -39,32 +48,29 @@ const SignUpSection = () => {
     } else if (password !== confirmPassword) {
       setError('Passwords do not match.');
     } else if (!validateEmail(email)) {
-      setError('Email is invalid');
-    }  else if (tel.length < 8 ) {
-      setError('Phone number is Uncorrect');
-    }else {
-
-      const updatedData = {  
-        login : username,
-        mail: email,      
+      setError('Email is invalid.');
+    } else if (tel.length < 8) {
+      setError('Phone number is incorrect.');
+    } else {
+      const updatedData = {
+        login: username,
+        mail: email,
         tel,
         fullName: username,
         password
       };
 
       try {
-        await addUsers( updatedData);
-        setUserData([...userData, updatedData]);   
-        setError('') ; 
-        navigate('/Login')    
+        await addUsers(updatedData);
+        await fetchUsersData(); // Refetch user data
+        setError('');
+        navigate('/Login');
       } catch (error) {
         console.error("Error adding the user:", error);
       }
-    
     }
   };
 
-  
   useEffect(() => {
     fetchUsersData();
   }, []);
@@ -72,19 +78,20 @@ const SignUpSection = () => {
   const fetchUsersData = async () => {
     try {
       const data = await fetchUsers();
+      console.log('Fetched users data:', data);
       setUserData(data);
     } catch (error) {
       console.error("Failed to fetch user data", error);
     }
   };
 
-  console.log(userData)
-
   return (
     <VStack className="right-section" marginY="auto" bgColor="#E9D280">
       <Heading style={{ fontSize: '4em', padding: '20px' }}>Transtu</Heading>
       <Stack spacing={3}>
-        <Text fontSize='2xl' position="relative" top="0px" fontWeight="bold">Welcome aboard Transtu, where every journey begins with convenience and reliability.</Text>
+        <Text fontSize='2xl' position="relative" top="0px" fontWeight="bold">
+          Welcome aboard Transtu, where every journey begins with convenience and reliability.
+        </Text>
       </Stack>
 
       <form onSubmit={handleSubmit(submitData)}>
@@ -93,10 +100,7 @@ const SignUpSection = () => {
             <FormControl mb={2}>
               <FormLabel htmlFor="username">Username</FormLabel>
               <InputGroup>
-                <InputLeftElement
-                  pointerEvents="none"
-                  children={<FaUser color="gray.300" />}
-                />
+                <InputLeftElement pointerEvents="none" children={<FaUser color="gray.300" />} />
                 <Input
                   pr="4.5rem"
                   type="text"
@@ -114,12 +118,8 @@ const SignUpSection = () => {
             <FormControl mt={0}>
               <FormLabel>E-mail</FormLabel>
               <InputGroup>
-                <InputLeftElement
-                  pointerEvents="none"
-                  children={<MdEmail color="gray.300" />}
-                />
+                <InputLeftElement pointerEvents="none" children={<MdEmail color="gray.300" />} />
                 <Input
-                  
                   placeholder='Enter your E-mail'
                   focusBorderColor='blue.500'
                   color={'black'}
@@ -132,12 +132,8 @@ const SignUpSection = () => {
             <FormControl mt={0}>
               <FormLabel>Telephone</FormLabel>
               <InputGroup>
-                <InputLeftElement
-                  pointerEvents="none"
-                  children={<MdPhone  color="gray.300" />}
-                />
+                <InputLeftElement pointerEvents="none" children={<MdPhone color="gray.300" />} />
                 <Input
-                  
                   placeholder='Enter your Phone Number'
                   focusBorderColor='blue.500'
                   color={'black'}
@@ -150,10 +146,7 @@ const SignUpSection = () => {
             <FormControl mb={2} position="relative">
               <FormLabel htmlFor="password">Password</FormLabel>
               <InputGroup>
-                <InputLeftElement
-                  pointerEvents="none"
-                  children={<FaLock color="gray.300" />}
-                />
+                <InputLeftElement pointerEvents="none" children={<FaLock color="gray.300" />} />
                 <Input
                   pr="4.5rem"
                   type={!showPassword ? 'password' : 'text'}
@@ -180,10 +173,7 @@ const SignUpSection = () => {
             <FormControl mb={2} position="relative">
               <FormLabel htmlFor="confirmPassword">Confirm Password</FormLabel>
               <InputGroup>
-                <InputLeftElement
-                  pointerEvents="none"
-                  children={<FaLock color="gray.300" />}
-                />
+                <InputLeftElement pointerEvents="none" children={<FaLock color="gray.300" />} />
                 <Input
                   pr="4.5rem"
                   type={!showPassword ? 'password' : 'text'}
@@ -220,4 +210,5 @@ const SignUpSection = () => {
     </VStack>
   );
 };
+
 export default SignUpSection;

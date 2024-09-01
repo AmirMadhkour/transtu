@@ -13,6 +13,16 @@ export const fetchUsers = async () => {
     }
 };
 
+export const loginUser = async (username, password) => {
+    try {
+        const response = await axios.post('/Login', { username, password });
+        return response.data; // This should include the JWT token
+    } catch (error) {
+        console.error('Error logging in:', error);
+        throw error;
+    }
+};
+
 export const updateUsers = async (id, data) => {
     
     try {
