@@ -7,7 +7,7 @@ import LeftSection from '../components/LeftSection';
 const Login = () => {
   const style = {
     backgroundColor: '#E9D280',
-    minHeight: '100vh',
+    minHeight: '80vh',
     padding: '20px',
   };
   return (

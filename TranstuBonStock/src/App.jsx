@@ -2,6 +2,7 @@ import './App.css'
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 import { ChakraProvider } from '@chakra-ui/react'
 import SignUp from "./pages/SignUP";
+import PageNotFound from './pages/PageNotFound';
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import VehiculePage from './pages/VehiculePage';
@@ -38,6 +39,7 @@ function App() {
                         <div className="backgroundcolor1">
                           <main className='container mx-auto px-3 pb-12'>
                             <Routes>
+                              <Route path="/*" element={<PageNotFound />} />
                               <Route path="/SignUp" element={<SignUp />} />
                               <Route path="/Login" element={<Login />} />
                               <Route path="/Home" element={<ProtectedRoute element={<Home />} /> } />

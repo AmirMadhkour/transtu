@@ -12,7 +12,7 @@ import { BiSolidEdit, BiSolidTrash } from "react-icons/bi";
 function BonCarburant() {
     const style = {
         backgroundColor: '#E9D280',
-        minHeight: '100vh',
+        minHeight: '78vh',
         padding: '20px',
       };
 

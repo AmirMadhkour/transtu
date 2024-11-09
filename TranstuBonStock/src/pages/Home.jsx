@@ -8,7 +8,7 @@ function Home() {
 
   const style = {
     backgroundColor: '#E9D280',
-    minHeight: '100vh',
+    minHeight: '40vh',
     padding: '20px',
   };
 
